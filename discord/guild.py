@@ -399,10 +399,9 @@ class Guild(Hashable):
     def _from_data(self, guild: GuildPayload) -> None:
         # according to Stan, this is always available even if the guild is unavailable
         # I don't have this guarantee when someone updates the guild.
-        member_count = guild.get('member_count', None)
-        if member_count is not None:
-            self._member_count: int = member_count
-
+        # Above information is WRONG. - Zapd0s
+        self._member_count: Optional[int] = guild.get('member_count', None)
+        
         self.name: str = guild.get('name')
         self.region: VoiceRegion = try_enum(VoiceRegion, guild.get('region'))
         self.verification_level: VerificationLevel = try_enum(VerificationLevel, guild.get('verification_level'))

@@ -400,7 +400,11 @@ class Guild(Hashable):
         # according to Stan, this is always available even if the guild is unavailable
         # I don't have this guarantee when someone updates the guild.
         # Above information is WRONG. - Zapd0s
-        self._member_count: Optional[int] = guild.get('member_count', None)
+        member_count = guild.get('member_count', None)
+        if member_count is not None:
+            self._member_count: int = member_count
+          
+
         
         self.name: str = guild.get('name')
         self.region: VoiceRegion = try_enum(VoiceRegion, guild.get('region'))

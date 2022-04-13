@@ -44,7 +44,7 @@ from .errors import (
 from .enums import Status
 
 from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, Optional, List, Dict, TypeVar
-
+import traceback
 if TYPE_CHECKING:
     from .gateway import DiscordWebSocket
     from .activity import BaseActivity
@@ -149,6 +149,8 @@ class Shard:
 
         if isinstance(e, ConnectionClosed):
             if e.code == 4014:
+                _log.info("TERMINATED")
+                _log.info("".join(traceback.format_exception(type(e), e, e.__traceback__)))
                 self._queue_put(EventItem(EventType.terminate, self, PrivilegedIntentsRequired(self.id)))
                 return
             if e.code != 1000:
@@ -174,6 +176,8 @@ class Shard:
             except asyncio.CancelledError:
                 break
             except Exception as e:
+                _log.info("TERMINATED")
+                _log.info("".join(traceback.format_exception(type(e), e, e.__traceback__)))
                 self._queue_put(EventItem(EventType.terminate, self, e))
                 break
 
@@ -196,6 +200,8 @@ class Shard:
         except asyncio.CancelledError:
             return
         except Exception as e:
+            _log.info("TERMINATED")
+            _log.info("".join(traceback.format_exception(type(e), e, e.__traceback__)))
             self._queue_put(EventItem(EventType.terminate, self, e))
         else:
             self.launch()
@@ -210,6 +216,8 @@ class Shard:
         except asyncio.CancelledError:
             return
         except Exception as e:
+            _log.info("TERMINATED")
+            _log.info("".join(traceback.format_exception(type(e), e, e.__traceback__)))
             self._queue_put(EventItem(EventType.terminate, self, e))
         else:
             self.launch()

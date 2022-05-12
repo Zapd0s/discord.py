@@ -40,6 +40,11 @@ from .activity import BaseActivity
 from .enums import SpeakingState
 from .errors import ConnectionClosed, InvalidArgument
 
+try:
+    import setproctitle
+except ImportError:
+    pass
+
 _log = logging.getLogger(__name__)
 
 __all__ = (
@@ -127,6 +132,10 @@ class KeepAliveHandler(threading.Thread):
         self.heartbeat_timeout = ws._max_heartbeat_timeout
 
     def run(self):
+        try:
+            setproctitle.setthreadtitle(f"Shard {self.shard_id}")
+        except Exception:
+            pass
         while not self._stop_ev.wait(self.interval):
             if self._last_recv + self.heartbeat_timeout < time.perf_counter():
                 _log.warning("Shard ID %s has stopped responding to the gateway. Closing and restarting.", self.shard_id)

@@ -107,11 +107,11 @@ async def json_or_text(response: aiohttp.ClientResponse) -> Union[Dict[str, Any]
     return text
 
 USE_PROXY = True
-DOMAIN = 'localhost:3000' if USE_PROXY else 'discord.com'
+DOMAIN = 'http://localhost:3000' if USE_PROXY else 'https://discord.com'
 
 
 class Route:
-    BASE: ClassVar[str] = f'https://{DOMAIN}/api/v8'
+    BASE: ClassVar[str] = f'{DOMAIN}/api/v8'
 
     def __init__(self, method: str, path: str, **parameters: Any) -> None:
         self.path: str = path

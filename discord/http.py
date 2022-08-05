@@ -106,7 +106,7 @@ async def json_or_text(response: aiohttp.ClientResponse) -> Union[Dict[str, Any]
 
     return text
 
-USE_PROXY = False
+USE_PROXY = True
 DOMAIN = 'localhost:3000' if USE_PROXY else 'discord.com'
 
 

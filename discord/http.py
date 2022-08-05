@@ -106,6 +106,9 @@ async def json_or_text(response: aiohttp.ClientResponse) -> Union[Dict[str, Any]
 
     return text
 
+USE_PROXY = False
+DOMAIN = 'localhost:3000' if USE_PROXY else 'discord.com'
+
 
 class Route:
     BASE: ClassVar[str] = f'https://{DOMAIN}/api/v8'
@@ -155,8 +158,6 @@ class MaybeUnlock:
 # completely lowercase while aiohttp respects spec and does it as case-insensitive
 aiohttp.hdrs.WEBSOCKET = 'websocket'  # type: ignore
 
-USE_PROXY = False
-DOMAIN = 'localhost:3000' if USE_PROXY else 'discord.com'
 
 class HTTPClient:
     """Represents an HTTP client sending HTTP requests to the Discord API."""

@@ -329,6 +329,8 @@ class HTTPClient:
                         continue
 
                     # the usual error cases
+                    if response.status == 429:
+                        continue
                     if response.status == 403:
                         raise Forbidden(response, data)
                     elif response.status == 404:
